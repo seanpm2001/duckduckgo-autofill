@@ -16,14 +16,13 @@ import { createGlobalConfig } from '../config.js'
 import { NativeUIController } from '../UI/controllers/NativeUIController.js'
 import {createTransport} from '../deviceApiCalls/transports/transports.js'
 import {Settings} from '../Settings.js'
-import {DeviceApi, validate} from '../../packages/device-api/index.js'
+import {DeviceApi} from '../../packages/device-api/index.js'
 import {
     GetAutofillCredentialsCall,
     StoreFormDataCall,
-    AskToUnlockProviderCall, SendJSPixelCall
+    SendJSPixelCall
 } from '../deviceApiCalls/__generated__/deviceApiCalls.js'
 import {initFormSubmissionsApi} from './initFormSubmissionsApi.js'
-import {providerStatusUpdatedSchema} from '../deviceApiCalls/__generated__/validators.zod.js'
 
 /**
  * @typedef {import('../deviceApiCalls/__generated__/validators-ts').StoreFormData} StoreFormData
@@ -46,6 +45,9 @@ class InterfacePrototype {
 
     /** @type {PasswordGenerator} */
     passwordGenerator = new PasswordGenerator();
+
+    /** @type {import("../ThirdPartyProvider.js").ThirdPartyProvider | null} */
+    thirdPartyProvider = null
 
     /** @type {{privateAddress: string, personalAddress: string}} */
     #addresses = {
@@ -458,7 +460,7 @@ class InterfacePrototype {
         const subtype = getSubtypeFromType(inputType)
 
         if (id === PROVIDER_LOCKED) {
-            return this.askToUnlockProvider()
+            return this.thirdPartyProvider?.askToUnlockProvider()
         }
 
         const matchingData = items.find(item => String(item.id) === id)
@@ -513,11 +515,6 @@ class InterfacePrototype {
             console.error(e)
             return this.removeTooltip()
         })
-    }
-
-    async askToUnlockProvider () {
-        const response = await this.deviceApi.request(new AskToUnlockProviderCall(null))
-        this.providerStatusUpdated(response)
     }
 
     isTooltipActive () {
@@ -603,34 +600,6 @@ class InterfacePrototype {
     storeUserData (_data) {}
 
     addDeviceListeners () {}
-
-    /**
-     * Called by the native layer on all tabs when the provider status is updated
-     * @param {import("../deviceApiCalls/__generated__/validators-ts").ProviderStatusUpdated} data
-     */
-    providerStatusUpdated (data) {
-        try {
-            const {credentials, availableInputTypes} = validate(data, providerStatusUpdatedSchema)
-
-            // Update local settings and data
-            this.settings.setAvailableInputTypes(availableInputTypes)
-            this.storeLocalCredentials(credentials)
-
-            // rerender the tooltip
-            this.uiController?.updateItems(credentials)
-            // If the tooltip is open on an autofill type that's not available, close it
-            const currentInputSubtype = getSubtypeFromType(this.getCurrentInputType())
-            if (!availableInputTypes.credentials?.[currentInputSubtype]) {
-                this.removeTooltip()
-            }
-            // Redecorate fields according to the new types
-            this.scanner.forms.forEach(form => form.recategorizeAllInputs())
-        } catch (e) {
-            if (this.globalConfig.isDDGTestMode) {
-                console.log('isDDGTestMode: providerStatusUpdated error: ❌', e)
-            }
-        }
-    }
 
     /** @param {() => void} _fn */
     addLogoutListener (_fn) {}
