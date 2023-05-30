@@ -78,7 +78,7 @@ function withStringReplacements (page, replacements, platform = 'macos') {
         let replacement = typeof value === 'boolean' || typeof value === 'string'
             ? value
             : JSON.stringify(value)
-        output = output.replace(`// INJECT ${keyName} HERE`, `${keyName} = ${replacement};`)
+        output = output.replace(`//! INJECT ${keyName} HERE`, `${keyName} = ${replacement};`)
     }
 
     // 'macos' + 'ios'  can execute scripts before page scripts

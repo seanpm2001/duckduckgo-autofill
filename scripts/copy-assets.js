@@ -41,7 +41,7 @@ function copyFirefoxCSSFile (pathIn, pathOut) {
 function copyAutofillScript () {
     const scriptFileName = 'autofill.js'
     const debugScriptFileName = 'autofill-debug.js'
-    const source = '// INJECT isDDGTestMode HERE'
+    const source = '//! INJECT isDDGTestMode HERE'
     const replacement = 'isDDGTestMode = true;'
 
     // read both source files

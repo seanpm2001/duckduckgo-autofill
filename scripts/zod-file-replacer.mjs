@@ -9,7 +9,7 @@
  * @param {string} fileAsString
  * @return {string}
  */
-function replaceConstExports (fileAsString) {
+export function replaceConstExports (fileAsString) {
     // Break up the incoming file into lines that contain const exports.
     const asLines = fileAsString
         .split('\n')
@@ -23,5 +23,3 @@ function replaceConstExports (fileAsString) {
 
     return asNames.join('\n')
 }
-
-module.exports.replaceConstExports = replaceConstExports
