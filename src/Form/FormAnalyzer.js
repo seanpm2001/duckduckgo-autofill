@@ -14,9 +14,9 @@ const loginProvidersRegex = new RegExp(/ with /i)
 
 class FormAnalyzer {
     /** @type HTMLElement */
-    form;
+    form
     /** @type Matching */
-    matching;
+    matching
     /**
      * @param {HTMLElement} form
      * @param {HTMLInputElement|HTMLSelectElement} input
