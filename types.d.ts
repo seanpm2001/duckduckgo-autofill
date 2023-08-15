@@ -39,6 +39,10 @@ interface Window {
     BrowserAutofill: {
         getAutofillData(data: string): void;
         storeFormData(data: string): void;
+        getIncontextSignupDismissedAt(data: string): void;
+        setIncontextSignupPermanentlyDismissedAt(data: string): void;
+        startEmailProtectionSignup(data: string): void;
+        closeEmailProtectionTab(data: string): void;
     }
 
     // Used in Apple apps
