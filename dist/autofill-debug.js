@@ -19474,6 +19474,23 @@ class AndroidTransport extends _index.DeviceApiTransport {
       return androidSpecificAvailableInputTypes(this.config);
     }
 
+    if (deviceApiCall instanceof _deviceApiCalls.GetIncontextSignupDismissedAtCall) {
+      window.BrowserAutofill.getIncontextSignupDismissedAt(JSON.stringify(deviceApiCall.params));
+      return waitForResponse(deviceApiCall.id, this.config);
+    }
+
+    if (deviceApiCall instanceof _deviceApiCalls.SetIncontextSignupPermanentlyDismissedAtCall) {
+      return window.BrowserAutofill.setIncontextSignupPermanentlyDismissedAt(JSON.stringify(deviceApiCall.params));
+    }
+
+    if (deviceApiCall instanceof _deviceApiCalls.StartEmailProtectionSignupCall) {
+      return window.BrowserAutofill.startEmailProtectionSignup(JSON.stringify(deviceApiCall.params));
+    }
+
+    if (deviceApiCall instanceof _deviceApiCalls.CloseEmailProtectionTabCall) {
+      return window.BrowserAutofill.closeEmailProtectionTab(JSON.stringify(deviceApiCall.params));
+    }
+
     if (deviceApiCall instanceof _deviceApiCalls.GetAutofillDataCall) {
       window.BrowserAutofill.getAutofillData(JSON.stringify(deviceApiCall.params));
       return waitForResponse(deviceApiCall.id, this.config);
