@@ -7333,9 +7333,19 @@ var _NativeUIController = require("../UI/controllers/NativeUIController.js");
 
 var _appleUtils = require("@duckduckgo/content-scope-scripts/src/apple-utils");
 
+var _InContextSignup = require("../InContextSignup.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 class AndroidInterface extends _InterfacePrototype.default {
+  constructor() {
+    super(...arguments);
+
+    _defineProperty(this, "inContextSignup", new _InContextSignup.InContextSignup(this));
+  }
+
   async isEnabled() {
     return (0, _autofillUtils.autofillEnabled)(this.globalConfig, _appleUtils.processConfig);
   }
@@ -7383,7 +7393,9 @@ class AndroidInterface extends _InterfacePrototype.default {
     return true;
   }
 
-  async setupAutofill() {}
+  async setupAutofill() {
+    await this.inContextSignup.init();
+  }
   /**
    * Used by the email web app
    * Settings page displays data of the logged in user data
@@ -7467,7 +7479,7 @@ class AndroidInterface extends _InterfacePrototype.default {
 
 exports.AndroidInterface = AndroidInterface;
 
-},{"../UI/controllers/NativeUIController.js":58,"../autofill-utils.js":63,"./InterfacePrototype.js":27,"@duckduckgo/content-scope-scripts/src/apple-utils":1}],24:[function(require,module,exports){
+},{"../InContextSignup.js":46,"../UI/controllers/NativeUIController.js":58,"../autofill-utils.js":63,"./InterfacePrototype.js":27,"@duckduckgo/content-scope-scripts/src/apple-utils":1}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
