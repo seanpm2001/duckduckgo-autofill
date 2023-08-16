@@ -31,6 +31,7 @@ interface Window {
         getUserData(): string
         storeCredentials(token: string, username: string, cohort: string): string
         showTooltip()
+        showInContextEmailProtectionSignupPrompt()
         getDeviceCapabilities(): string
         removeCredentials()
     }

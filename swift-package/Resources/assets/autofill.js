@@ -3682,6 +3682,10 @@ class AndroidInterface extends _InterfacePrototype.default {
     const {
       alias
     } = await (0, _autofillUtils.sendAndWaitForAnswer)(() => {
+      if (this.inContextSignup.isAvailable()) {
+        return window.EmailInterface.showInContextEmailProtectionSignupPrompt();
+      }
+
       return window.EmailInterface.showTooltip();
     }, 'getAliasResponse');
     return alias;

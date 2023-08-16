@@ -16,6 +16,9 @@ class AndroidInterface extends InterfacePrototype {
      */
     async getAlias () {
         const { alias } = await sendAndWaitForAnswer(() => {
+            if (this.inContextSignup.isAvailable()) {
+                return window.EmailInterface.showInContextEmailProtectionSignupPrompt()
+            }
             return window.EmailInterface.showTooltip()
         }, 'getAliasResponse')
         return alias

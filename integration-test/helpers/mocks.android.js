@@ -158,6 +158,9 @@ export function createAndroidMocks () {
                             alias: mocks.address
                         }, window.origin)
                     },
+                    showInContextEmailProtectionSignupPrompt() {
+                        return ''
+                    },
                     getUserData () {
                         return ''
                     },
