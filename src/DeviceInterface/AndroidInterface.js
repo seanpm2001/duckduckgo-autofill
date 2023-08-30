@@ -3,6 +3,7 @@ import {autofillEnabled, sendAndWaitForAnswer} from '../autofill-utils.js'
 import { NativeUIController } from '../UI/controllers/NativeUIController.js'
 import {processConfig} from '@duckduckgo/content-scope-scripts/src/apple-utils'
 import { InContextSignup } from '../InContextSignup.js'
+import { CloseEmailProtectionTabCall } from '../deviceApiCalls/__generated__/deviceApiCalls.js'
 
 class AndroidInterface extends InterfacePrototype {
     inContextSignup = new InContextSignup(this)
@@ -106,6 +107,14 @@ class AndroidInterface extends InterfacePrototype {
                 console.error(e)
             }
         }
+    }
+
+    /**
+     * Used by the email web app
+     * Provides functionality to close the window after in-context sign-up or sign-in
+     */
+    closeEmailProtection () {
+        this.deviceApi.request(new CloseEmailProtectionTabCall(null))
     }
 
     addLogoutListener (handler) {

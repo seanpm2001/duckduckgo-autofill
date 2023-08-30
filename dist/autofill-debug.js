@@ -7335,6 +7335,8 @@ var _appleUtils = require("@duckduckgo/content-scope-scripts/src/apple-utils");
 
 var _InContextSignup = require("../InContextSignup.js");
 
+var _deviceApiCalls = require("../deviceApiCalls/__generated__/deviceApiCalls.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -7464,6 +7466,15 @@ class AndroidInterface extends _InterfacePrototype.default {
       }
     }
   }
+  /**
+   * Used by the email web app
+   * Provides functionality to close the window after in-context sign-up or sign-in
+   */
+
+
+  closeEmailProtection() {
+    this.deviceApi.request(new _deviceApiCalls.CloseEmailProtectionTabCall(null));
+  }
 
   addLogoutListener(handler) {
     // Only deal with logging out if we're in the email web app
@@ -7483,7 +7494,7 @@ class AndroidInterface extends _InterfacePrototype.default {
 
 exports.AndroidInterface = AndroidInterface;
 
-},{"../InContextSignup.js":46,"../UI/controllers/NativeUIController.js":58,"../autofill-utils.js":63,"./InterfacePrototype.js":27,"@duckduckgo/content-scope-scripts/src/apple-utils":1}],24:[function(require,module,exports){
+},{"../InContextSignup.js":46,"../UI/controllers/NativeUIController.js":58,"../autofill-utils.js":63,"../deviceApiCalls/__generated__/deviceApiCalls.js":67,"./InterfacePrototype.js":27,"@duckduckgo/content-scope-scripts/src/apple-utils":1}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
