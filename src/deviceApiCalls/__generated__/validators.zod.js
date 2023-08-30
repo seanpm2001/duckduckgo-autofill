@@ -257,6 +257,12 @@ export const emailProtectionRefreshPrivateAddressResultSchema = z.object({
     error: genericErrorSchema.optional()
 });
 
+export const showInContextEmailProtectionSignupPromptSchema = z.object({
+    success: z.object({
+        isSignedIn: z.boolean()
+    })
+});
+
 export const getAutofillDataRequestSchema = z.object({
     generatedPassword: generatedPasswordSchema.optional(),
     inputType: z.string(),
@@ -410,5 +416,9 @@ export const apiSchema = z.object({
         resultValidator: emailProtectionRefreshPrivateAddressResultSchema.optional()
     })).optional(),
     startEmailProtectionSignup: z.record(z.unknown()).optional(),
-    closeEmailProtectionTab: z.record(z.unknown()).optional()
+    closeEmailProtectionTab: z.record(z.unknown()).optional(),
+    ShowInContextEmailProtectionSignupPrompt: z.record(z.unknown()).and(z.object({
+        id: z.literal("ShowInContextEmailProtectionSignupPromptResponse").optional(),
+        resultValidator: showInContextEmailProtectionSignupPromptSchema.optional()
+    })).optional()
 });

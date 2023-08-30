@@ -20,7 +20,8 @@ import {
     emailProtectionGetUserDataResultSchema,
     emailProtectionGetCapabilitiesResultSchema,
     emailProtectionGetAddressesResultSchema,
-    emailProtectionRefreshPrivateAddressResultSchema
+    emailProtectionRefreshPrivateAddressResultSchema,
+    showInContextEmailProtectionSignupPromptSchema
 } from "./validators.zod.js"
 import { DeviceApiCall } from "../../../packages/device-api";
 
@@ -214,4 +215,12 @@ export class StartEmailProtectionSignupCall extends DeviceApiCall {
  */
 export class CloseEmailProtectionTabCall extends DeviceApiCall {
   method = "closeEmailProtectionTab"
+}
+/**
+ * @extends {DeviceApiCall<any, showInContextEmailProtectionSignupPromptSchema>} 
+ */
+export class ShowInContextEmailProtectionSignupPromptCall extends DeviceApiCall {
+  method = "ShowInContextEmailProtectionSignupPrompt"
+  id = "ShowInContextEmailProtectionSignupPromptResponse"
+  resultValidator = showInContextEmailProtectionSignupPromptSchema
 }

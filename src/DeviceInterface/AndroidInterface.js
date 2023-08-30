@@ -3,7 +3,7 @@ import {autofillEnabled, sendAndWaitForAnswer} from '../autofill-utils.js'
 import { NativeUIController } from '../UI/controllers/NativeUIController.js'
 import {processConfig} from '@duckduckgo/content-scope-scripts/src/apple-utils'
 import { InContextSignup } from '../InContextSignup.js'
-import { CloseEmailProtectionTabCall } from '../deviceApiCalls/__generated__/deviceApiCalls.js'
+import { CloseEmailProtectionTabCall, ShowInContextEmailProtectionSignupPromptCall } from '../deviceApiCalls/__generated__/deviceApiCalls.js'
 
 class AndroidInterface extends InterfacePrototype {
     inContextSignup = new InContextSignup(this)
@@ -16,9 +16,13 @@ class AndroidInterface extends InterfacePrototype {
      * @returns {Promise<string|undefined>}
      */
     async getAlias () {
-        const { alias } = await sendAndWaitForAnswer(() => {
+        const { alias } = await sendAndWaitForAnswer(async () => {
             if (this.inContextSignup.isAvailable()) {
-                return window.EmailInterface.showInContextEmailProtectionSignupPrompt()
+                const { isSignedIn } = await this.deviceApi.request(new ShowInContextEmailProtectionSignupPromptCall(null))
+                if (this.globalConfig.availableInputTypes) {
+                    this.globalConfig.availableInputTypes.email = isSignedIn
+                }
+                this.updateForStateChange()
             }
             return window.EmailInterface.showTooltip()
         }, 'getAliasResponse')

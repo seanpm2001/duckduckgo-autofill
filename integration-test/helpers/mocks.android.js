@@ -75,6 +75,7 @@ export function createAndroidMocks () {
     const mocks = {
         /** @type {GetAutofillDataResponse['success']|null} */
         getAutofillData: null,
+        showInContextEmailProtectionSignupPrompt: { isSignedIn: true },
         /** @type {string|null} */
         address: null,
         isSignedIn: ''
@@ -158,9 +159,6 @@ export function createAndroidMocks () {
                             alias: mocks.address
                         }, window.origin)
                     },
-                    showInContextEmailProtectionSignupPrompt() {
-                        return ''
-                    },
                     getUserData () {
                         return ''
                     },
@@ -203,7 +201,10 @@ export function createAndroidMocks () {
                         // @ts-expect-error
                         const call = ['storeFormData', request, mocks.getAutofillData]
                         window.__playwright_autofill.mocks.calls.push(JSON.parse(JSON.stringify(call)))
-                    }
+                    },
+                    showInContextEmailProtectionSignupPrompt (request) {
+                        return respond('showInContextEmailProtectionSignupPrompt', request, mocks.showInContextEmailProtectionSignupPrompt)
+                    },
                 }
             }, mocks)
         },

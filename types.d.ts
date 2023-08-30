@@ -31,7 +31,6 @@ interface Window {
         getUserData(): string
         storeCredentials(token: string, username: string, cohort: string): string
         showTooltip()
-        showInContextEmailProtectionSignupPrompt()
         getDeviceCapabilities(): string
         removeCredentials()
     }
@@ -42,6 +41,7 @@ interface Window {
         storeFormData(data: string): void;
         getIncontextSignupDismissedAt(data: string): void;
         setIncontextSignupPermanentlyDismissedAt(data: string): void;
+        showInContextEmailProtectionSignupPrompt(data: string): void;
         startEmailProtectionSignup(data: string): void;
         closeEmailProtectionTab(data: string): void;
     }

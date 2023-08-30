@@ -218,6 +218,14 @@ export interface API {
   closeEmailProtectionTab?: {
     [k: string]: unknown;
   };
+  /**
+   * Used by Android to open a the in-context signup prompt and report back when completed
+   */
+  ShowInContextEmailProtectionSignupPrompt?: {
+    id?: "ShowInContextEmailProtectionSignupPromptResponse";
+    resultValidator?: ShowInContextEmailProtectionSignupPrompt;
+    [k: string]: unknown;
+  };
 }
 /**
  * This describes the argument given to `getAutofillData(data)`
@@ -647,4 +655,12 @@ export interface EmailProtectionRefreshPrivateAddressResult {
     privateAddress: string;
   };
   error?: GenericError;
+}
+/**
+ * Gets the result of the in-context signup flow
+ */
+export interface ShowInContextEmailProtectionSignupPrompt {
+  success: {
+    isSignedIn: boolean;
+  };
 }

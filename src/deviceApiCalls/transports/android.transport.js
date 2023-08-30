@@ -6,6 +6,7 @@ import {
     GetIncontextSignupDismissedAtCall,
     GetRuntimeConfigurationCall,
     SetIncontextSignupPermanentlyDismissedAtCall,
+    ShowInContextEmailProtectionSignupPromptCall,
     StartEmailProtectionSignupCall,
     StoreFormDataCall
 } from '../__generated__/deviceApiCalls.js'
@@ -56,6 +57,11 @@ export class AndroidTransport extends DeviceApiTransport {
 
         if (deviceApiCall instanceof CloseEmailProtectionTabCall) {
             return window.BrowserAutofill.closeEmailProtectionTab(JSON.stringify(deviceApiCall.params))
+        }
+
+        if (deviceApiCall instanceof ShowInContextEmailProtectionSignupPromptCall) {
+            window.BrowserAutofill.showInContextEmailProtectionSignupPrompt(JSON.stringify(deviceApiCall.params))
+            return waitForResponse(deviceApiCall.id, this.config)
         }
 
         if (deviceApiCall instanceof GetAutofillDataCall) {

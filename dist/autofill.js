@@ -3683,9 +3683,17 @@ class AndroidInterface extends _InterfacePrototype.default {
   async getAlias() {
     const {
       alias
-    } = await (0, _autofillUtils.sendAndWaitForAnswer)(() => {
+    } = await (0, _autofillUtils.sendAndWaitForAnswer)(async () => {
       if (this.inContextSignup.isAvailable()) {
-        return window.EmailInterface.showInContextEmailProtectionSignupPrompt();
+        const {
+          isSignedIn
+        } = await this.deviceApi.request(new _deviceApiCalls.ShowInContextEmailProtectionSignupPromptCall(null));
+
+        if (this.globalConfig.availableInputTypes) {
+          this.globalConfig.availableInputTypes.email = isSignedIn;
+        }
+
+        this.updateForStateChange();
       }
 
       return window.EmailInterface.showTooltip();
@@ -14756,7 +14764,7 @@ exports.constants = constants;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.StoreFormDataCall = exports.StartEmailProtectionSignupCall = exports.SetSizeCall = exports.SetIncontextSignupPermanentlyDismissedAtCall = exports.SendJSPixelCall = exports.SelectedDetailCall = exports.OpenManagePasswordsCall = exports.OpenManageIdentitiesCall = exports.OpenManageCreditCardsCall = exports.GetRuntimeConfigurationCall = exports.GetIncontextSignupDismissedAtCall = exports.GetAvailableInputTypesCall = exports.GetAutofillInitDataCall = exports.GetAutofillDataCall = exports.GetAutofillCredentialsCall = exports.EmailProtectionStoreUserDataCall = exports.EmailProtectionRemoveUserDataCall = exports.EmailProtectionRefreshPrivateAddressCall = exports.EmailProtectionGetUserDataCall = exports.EmailProtectionGetIsLoggedInCall = exports.EmailProtectionGetCapabilitiesCall = exports.EmailProtectionGetAddressesCall = exports.CloseEmailProtectionTabCall = exports.CloseAutofillParentCall = exports.CheckCredentialsProviderStatusCall = exports.AskToUnlockProviderCall = void 0;
+exports.StoreFormDataCall = exports.StartEmailProtectionSignupCall = exports.ShowInContextEmailProtectionSignupPromptCall = exports.SetSizeCall = exports.SetIncontextSignupPermanentlyDismissedAtCall = exports.SendJSPixelCall = exports.SelectedDetailCall = exports.OpenManagePasswordsCall = exports.OpenManageIdentitiesCall = exports.OpenManageCreditCardsCall = exports.GetRuntimeConfigurationCall = exports.GetIncontextSignupDismissedAtCall = exports.GetAvailableInputTypesCall = exports.GetAutofillInitDataCall = exports.GetAutofillDataCall = exports.GetAutofillCredentialsCall = exports.EmailProtectionStoreUserDataCall = exports.EmailProtectionRemoveUserDataCall = exports.EmailProtectionRefreshPrivateAddressCall = exports.EmailProtectionGetUserDataCall = exports.EmailProtectionGetIsLoggedInCall = exports.EmailProtectionGetCapabilitiesCall = exports.EmailProtectionGetAddressesCall = exports.CloseEmailProtectionTabCall = exports.CloseAutofillParentCall = exports.CheckCredentialsProviderStatusCall = exports.AskToUnlockProviderCall = void 0;
 
 var _validatorsZod = require("./validators.zod.js");
 
@@ -15220,8 +15228,27 @@ class CloseEmailProtectionTabCall extends _deviceApi.DeviceApiCall {
   }
 
 }
+/**
+ * @extends {DeviceApiCall<any, showInContextEmailProtectionSignupPromptSchema>} 
+ */
+
 
 exports.CloseEmailProtectionTabCall = CloseEmailProtectionTabCall;
+
+class ShowInContextEmailProtectionSignupPromptCall extends _deviceApi.DeviceApiCall {
+  constructor() {
+    super(...arguments);
+
+    _defineProperty(this, "method", "ShowInContextEmailProtectionSignupPrompt");
+
+    _defineProperty(this, "id", "ShowInContextEmailProtectionSignupPromptResponse");
+
+    _defineProperty(this, "resultValidator", _validatorsZod.showInContextEmailProtectionSignupPromptSchema);
+  }
+
+}
+
+exports.ShowInContextEmailProtectionSignupPromptCall = ShowInContextEmailProtectionSignupPromptCall;
 
 },{"../../../packages/device-api":6,"./validators.zod.js":60}],60:[function(require,module,exports){
 "use strict";
@@ -15229,7 +15256,7 @@ exports.CloseEmailProtectionTabCall = CloseEmailProtectionTabCall;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.userPreferencesSchema = exports.triggerContextSchema = exports.storeFormDataSchema = exports.setSizeParamsSchema = exports.setIncontextSignupPermanentlyDismissedAtSchema = exports.sendJSPixelParamsSchema = exports.selectedDetailParamsSchema = exports.runtimeConfigurationSchema = exports.providerStatusUpdatedSchema = exports.outgoingCredentialsSchema = exports.getRuntimeConfigurationResponseSchema = exports.getIncontextSignupDismissedAtSchema = exports.getAvailableInputTypesResultSchema = exports.getAutofillInitDataResponseSchema = exports.getAutofillDataResponseSchema = exports.getAutofillDataRequestSchema = exports.getAutofillCredentialsResultSchema = exports.getAutofillCredentialsParamsSchema = exports.getAliasResultSchema = exports.getAliasParamsSchema = exports.genericErrorSchema = exports.generatedPasswordSchema = exports.emailProtectionStoreUserDataParamsSchema = exports.emailProtectionRefreshPrivateAddressResultSchema = exports.emailProtectionGetUserDataResultSchema = exports.emailProtectionGetIsLoggedInResultSchema = exports.emailProtectionGetCapabilitiesResultSchema = exports.emailProtectionGetAddressesResultSchema = exports.credentialsSchema = exports.contentScopeSchema = exports.checkCredentialsProviderStatusResultSchema = exports.availableInputTypesSchema = exports.availableInputTypes1Schema = exports.autofillSettingsSchema = exports.autofillFeatureTogglesSchema = exports.askToUnlockProviderResultSchema = exports.apiSchema = void 0;
+exports.userPreferencesSchema = exports.triggerContextSchema = exports.storeFormDataSchema = exports.showInContextEmailProtectionSignupPromptSchema = exports.setSizeParamsSchema = exports.setIncontextSignupPermanentlyDismissedAtSchema = exports.sendJSPixelParamsSchema = exports.selectedDetailParamsSchema = exports.runtimeConfigurationSchema = exports.providerStatusUpdatedSchema = exports.outgoingCredentialsSchema = exports.getRuntimeConfigurationResponseSchema = exports.getIncontextSignupDismissedAtSchema = exports.getAvailableInputTypesResultSchema = exports.getAutofillInitDataResponseSchema = exports.getAutofillDataResponseSchema = exports.getAutofillDataRequestSchema = exports.getAutofillCredentialsResultSchema = exports.getAutofillCredentialsParamsSchema = exports.getAliasResultSchema = exports.getAliasParamsSchema = exports.genericErrorSchema = exports.generatedPasswordSchema = exports.emailProtectionStoreUserDataParamsSchema = exports.emailProtectionRefreshPrivateAddressResultSchema = exports.emailProtectionGetUserDataResultSchema = exports.emailProtectionGetIsLoggedInResultSchema = exports.emailProtectionGetCapabilitiesResultSchema = exports.emailProtectionGetAddressesResultSchema = exports.credentialsSchema = exports.contentScopeSchema = exports.checkCredentialsProviderStatusResultSchema = exports.availableInputTypesSchema = exports.availableInputTypes1Schema = exports.autofillSettingsSchema = exports.autofillFeatureTogglesSchema = exports.askToUnlockProviderResultSchema = exports.apiSchema = void 0;
 const sendJSPixelParamsSchema = null;
 exports.sendJSPixelParamsSchema = sendJSPixelParamsSchema;
 const generatedPasswordSchema = null;
@@ -15282,6 +15309,8 @@ const emailProtectionGetAddressesResultSchema = null;
 exports.emailProtectionGetAddressesResultSchema = emailProtectionGetAddressesResultSchema;
 const emailProtectionRefreshPrivateAddressResultSchema = null;
 exports.emailProtectionRefreshPrivateAddressResultSchema = emailProtectionRefreshPrivateAddressResultSchema;
+const showInContextEmailProtectionSignupPromptSchema = null;
+exports.showInContextEmailProtectionSignupPromptSchema = showInContextEmailProtectionSignupPromptSchema;
 const getAutofillDataRequestSchema = null;
 exports.getAutofillDataRequestSchema = getAutofillDataRequestSchema;
 const getAutofillDataResponseSchema = null;
@@ -15413,6 +15442,11 @@ class AndroidTransport extends _index.DeviceApiTransport {
 
     if (deviceApiCall instanceof _deviceApiCalls.CloseEmailProtectionTabCall) {
       return window.BrowserAutofill.closeEmailProtectionTab(JSON.stringify(deviceApiCall.params));
+    }
+
+    if (deviceApiCall instanceof _deviceApiCalls.ShowInContextEmailProtectionSignupPromptCall) {
+      window.BrowserAutofill.showInContextEmailProtectionSignupPrompt(JSON.stringify(deviceApiCall.params));
+      return waitForResponse(deviceApiCall.id, this.config);
     }
 
     if (deviceApiCall instanceof _deviceApiCalls.GetAutofillDataCall) {
