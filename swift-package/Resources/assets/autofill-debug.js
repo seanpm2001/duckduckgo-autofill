@@ -7363,7 +7363,9 @@ class AndroidInterface extends _InterfacePrototype.default {
       if (this.inContextSignup.isAvailable()) {
         const {
           isSignedIn
-        } = await this.deviceApi.request(new _deviceApiCalls.ShowInContextEmailProtectionSignupPromptCall(null));
+        } = await this.deviceApi.request(new _deviceApiCalls.ShowInContextEmailProtectionSignupPromptCall(null)); // On Android we can't get the input type data again without
+        // refreshing the page, so instead we can mutate it now that we
+        // know the user has Email Protection available.
 
         if (this.globalConfig.availableInputTypes) {
           this.globalConfig.availableInputTypes.email = isSignedIn;
