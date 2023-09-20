@@ -26,6 +26,7 @@ class AndroidInterface extends InterfacePrototype {
                     this.globalConfig.availableInputTypes.email = isSignedIn
                 }
                 this.updateForStateChange()
+                this.onFinishedAutofill()
             }
             return window.EmailInterface.showTooltip()
         }, 'getAliasResponse')

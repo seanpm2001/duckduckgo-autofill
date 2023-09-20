@@ -7372,6 +7372,7 @@ class AndroidInterface extends _InterfacePrototype.default {
         }
 
         this.updateForStateChange();
+        this.onFinishedAutofill();
       }
 
       return window.EmailInterface.showTooltip();
